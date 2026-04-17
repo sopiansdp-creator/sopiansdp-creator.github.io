@@ -1,37 +1,111 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Website Saya</title>
-    <style>
-        body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: white;
-            font-family: Arial;
-            text-align: center;
-            margin-top: 100px;
-        }
-        h1 {
-            font-size: 40px;
-        }
-        p {
-            font-size: 18px;
-            color: #ccc;
-        }
-        .box {
-            border: 1px solid white;
-            padding: 20px;
-            margin: auto;
-            width: 80%;
-            border-radius: 10px;
-        }
-    </style>
+  <title>Website Saya</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: monospace;
+      color: #00ffcc;
+      text-align: center;
+      background: black;
+      overflow: hidden;
+    }
+
+    /* MATRIX BACKGROUND */
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .box {
+      margin-top: 150px;
+      border: 1px solid #00ffcc;
+      padding: 20px;
+      display: inline-block;
+      border-radius: 10px;
+      box-shadow: 0 0 20px #00ffcc;
+      animation: glow 2s infinite alternate;
+    }
+
+    @keyframes glow {
+      from { box-shadow: 0 0 10px #00ffcc; }
+      to { box-shadow: 0 0 30px #00ffcc; }
+    }
+
+    .wa-btn {
+      margin-top: 20px;
+      display: inline-block;
+      padding: 10px 20px;
+      background: #25D366;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .wa-btn:hover {
+      background: #128C7E;
+      transform: scale(1.1);
+    }
+  </style>
 </head>
+
 <body>
 
+<canvas id="matrix"></canvas>
+
 <div class="box">
-    <h1>🚀 Halo, ini website saya</h1>
-    <p>Berhasil upload ke GitHub Pages</p>
+  <h1>💻 Halo, ini website saya</h1>
+  <p>Mode hacker aktif 🔥</p>
+
+  <!-- GANTI NOMOR DI SINI -->
+  <a class="wa-btn" href="https://wa.me/628XXXXXXXXXX" target="_blank">
+    Chat WhatsApp
+  </a>
 </div>
+
+<script>
+  const canvas = document.getElementById("matrix");
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  const letters = "01";
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+
+  const drops = [];
+  for (let x = 0; x < columns; x++) {
+    drops[x] = 1;
+  }
+
+  function draw() {
+    ctx.fillStyle = "rgba(0,0,0,0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#0f0";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+
+      drops[i]++;
+    }
+  }
+
+  setInterval(draw, 33);
+</script>
 
 </body>
 </html>
