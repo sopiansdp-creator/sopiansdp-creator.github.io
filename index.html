@@ -1,142 +1,74 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Secure Panel</title>
+<div class="box">
+  <h2>🔐 REDxTOOL</h2>
+  <p id="statusText">Masukkan PIN untuk akses</p>
 
-  <style>
-    body {
-      margin: 0;
-      background: black;
-      font-family: monospace;
-      color: red;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+  <input type="password" id="pin" maxlength="6" placeholder="Masukkan PIN">
 
-    .box {
-      border: 2px solid red;
-      padding: 20px;
-      border-radius: 15px;
-      width: 300px;
-      text-align: center;
-      box-shadow: 0 0 20px red;
-      transition: 0.2s;
-    }
+  <button onclick="cekPin()">KUNCI PERANGKAT</button>
 
-    /* ANIMASI GETAR */
-    .shake {
-      animation: shake 0.3s;
-    }
-
-    @keyframes shake {
-      0% { transform: translate(0); }
-      25% { transform: translate(-5px, 0); }
-      50% { transform: translate(5px, 0); }
-      75% { transform: translate(-5px, 0); }
-      100% { transform: translate(0); }
-    }
-
-    input {
-      width: 80%;
-      padding: 10px;
-      margin: 10px 0;
-      background: black;
-      border: 1px solid red;
-      color: red;
-      text-align: center;
-      font-size: 18px;
-    }
-
-    button {
-      background: red;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    button:hover {
-      background: darkred;
-    }
-
-    .status {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
-    .loading {
-      width: 100%;
-      height: 10px;
-      background: #222;
-      margin-top: 10px;
-      display: none;
-    }
-
-    .bar {
-      height: 100%;
-      width: 0%;
-      background: lime;
-    }
-  </style>
-</head>
-
-<body>
-
-<div class="box" id="box">
-  <h1>🔒 Secure Panel</h1>
-  <p>Masukkan PIN</p>
-
-  <input type="password" id="pin" placeholder="••••">
-
-  <br>
-  <button onclick="cek()">Submit</button>
-
-  <div class="status" id="status"></div>
-
-  <div class="loading" id="loading">
+  <div class="loading">
     <div class="bar" id="bar"></div>
   </div>
-</div>
+</div>.loading {
+  width: 100%;
+  height: 10px;
+  background: #111;
+  margin-top: 15px;
+  border-radius: 5px;
+  overflow: hidden;
+  display: none;
+}
 
-<script>
-  function cek() {
-    let pin = document.getElementById("pin").value;
-    let box = document.getElementById("box");
-    let status = document.getElementById("status");
-    let loading = document.getElementById("loading");
-    let bar = document.getElementById("bar");
+.bar {
+  height: 100%;
+  width: 0%;
+  background: lime;
+  transition: width 0.3s;
+}
 
-    status.innerHTML = "";
-    loading.style.display = "block";
-    bar.style.width = "0%";
+.shake {
+  animation: shake 0.3s;
+}
 
-    let progress = 0;
+@keyframes shake {
+  0% {transform: translateX(0);}
+  25% {transform: translateX(-5px);}
+  50% {transform: translateX(5px);}
+  75% {transform: translateX(-5px);}
+  100% {transform: translateX(0);}
+}<script>
+function cekPin() {
+  let pin = document.getElementById("pin").value;
+  let status = document.getElementById("statusText");
+  let bar = document.getElementById("bar");
+  let loading = document.querySelector(".loading");
 
-    let interval = setInterval(() => {
-      progress += 10;
-      bar.style.width = progress + "%";
+  loading.style.display = "block";
+  bar.style.width = "0%";
 
-      if (progress >= 100) {
-        clearInterval(interval);
+  let progress = 0;
+  let interval = setInterval(() => {
+    progress += 10;
+    bar.style.width = progress + "%";
 
-        if (pin === "1234") {
-          status.style.color = "lime";
-          status.innerHTML = "ACCESS GRANTED";
-        } else {
-          status.style.color = "red";
-          status.innerHTML = "ACCESS DENIED";
+    if (progress >= 100) {
+      clearInterval(interval);
 
-          box.classList.add("shake");
-          setTimeout(() => box.classList.remove("shake"), 300);
-        }
+      if (pin === "1234") {
+        status.innerHTML = "✅ ACCESS GRANTED";
+        status.style.color = "lime";
+      } else {
+        status.innerHTML = "❌ ACCESS DENIED";
+        status.style.color = "red";
+
+        let input = document.getElementById("pin");
+        input.classList.add("shake");
+
+        setTimeout(() => {
+          input.classList.remove("shake");
+        }, 300);
       }
-    }, 100);
-  }
+    }
+  }, 200);
+}
 </script>
-
-</body>
-</html>
